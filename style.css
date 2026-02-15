@@ -1,0 +1,11 @@
+:root {
+    --primary: #007bff;
+    --secondary: #6c757d;
+    --success: #28a745;
+    --dark: #212529;
+}
+
+body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; }
+.zyra-card { border: none; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+.btn-primary { border-radius: 8px; font-weight: 600; padding: 10px 20px; }
+.step-indicator { font-size: 0.8rem; color: var(--secondary); font-weight: bold; }

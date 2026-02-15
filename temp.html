@@ -1,24 +1,43 @@
-async function seedNadraData() {
-    const db = firebase.firestore();
-    const batch = db.batch(); // We use a batch for faster writing
-    const names = ["Ahmed Ali", "Sara Khan", "Bilal Sheikh", "Zainab Bibi", "Hamza Malik", "Dua Zehra", "Usman Ghani", "Ayesha Noor"];
-    
-    console.log("Starting to seed 50 records...");
+<!DOCTYPE html>
+<html>
+<body>
+    <h2>Zyra Data Seeder</h2>
+    <button onclick="seed()">Upload 50 Mock CNICs</button>
+    <div id="status"></div>
 
-    for (let i = 0; i < 50; i++) {
-        // Generate a unique 13-digit dummy CNIC
-        const cnic = "42101" + Math.floor(10000000 + Math.random() * 90000000); 
-        const randomName = names[Math.floor(Math.random() * names.length)] + " " + (i + 1);
-        
-        const docRef = db.collection("nadra_records").doc(cnic);
-        batch.set(docRef, { name: randomName });
-    }
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
-    try {
-        await batch.commit();
-        alert("Success! 50 test CNICs added to your database.");
-        console.log("Seeding complete.");
-    } catch (error) {
-        console.error("Error seeding data: ", error);
-    }
-}
+    <script>
+        // PASTE YOUR FIREBASE CONFIG HERE
+        const firebaseConfig = {
+            apiKey: "...",
+            authDomain: "...",
+            projectId: "...",
+            // ... the rest of your config
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        async function seed() {
+            const status = document.getElementById('status');
+            status.innerText = "Uploading...";
+            
+            const batch = db.batch();
+            const names = ["Ahmed Ali", "Sara Khan", "Zainab Malik", "Hamza Sheikh", "Bilal Ahmed"];
+            
+            for (let i = 0; i < 50; i++) {
+                // Generates a 13-digit dummy CNIC starting with 42101
+                const cnic = "42101" + Math.floor(10000000 + Math.random() * 90000000);
+                const name = names[Math.floor(Math.random() * names.length)];
+                
+                const ref = db.collection("nadra_records").doc(cnic);
+                batch.set(ref, { name: name + " " + (i + 1) });
+            }
+
+            await batch.commit();
+            status.innerText = "Success! 50 records are now in Firestore.";
+        }
+    </script>
+</body>
+</html>
